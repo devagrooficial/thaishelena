@@ -57,8 +57,10 @@ Se dados ficaram num banco `dpl-…` de um deploy anterior, copie-os para o banc
 (nada é apagado; registros que já existem no destino são mantidos):
 
 ```bash
-ORIGEM_URL=libsql://dpl-....turso.io ORIGEM_TOKEN=... BANCO_URL=libsql://thaishelena-....turso.io BANCO_TOKEN=... node scripts/copiar-banco.mjs
+node scripts/copiar-banco.mjs
 ```
+
+O script pergunta a URL e o token do banco antigo (`dpl-…`) e do banco fixo.
 
 Os bancos de cada deploy aparecem na lista de bancos do painel do Turso (ou `turso db list`).
 
