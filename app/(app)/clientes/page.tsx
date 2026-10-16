@@ -2,6 +2,8 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { exigirLogin } from "@/lib/sessao";
 import { dataBR, idade } from "@/lib/fichas";
+import { iniciais } from "@/lib/mascaras";
+import { Icone } from "@/components/Icone";
 
 export const metadata = { title: "Clientes · Espaço Thaís Helena" };
 
@@ -30,45 +32,60 @@ export default async function Clientes({ searchParams }: PageProps<"/clientes">)
 
   return (
     <>
-      <div className="topo">
+      <div className="cab-pag">
         <div>
           <h1>Clientes</h1>
-          <div className="muted">{lista.length} {lista.length === 1 ? "cliente" : "clientes"}{q && ` para “${q}”`}</div>
+          <div className="sub">
+            {lista.length} {lista.length === 1 ? "cliente" : "clientes"}{q && ` encontrada${lista.length === 1 ? "" : "s"} para “${q}”`}
+          </div>
         </div>
-        <Link className="btn" href="/clientes/nova">+ Nova cliente</Link>
+        <div className="cab-acoes so-desk">
+          <Link className="btn" href="/clientes/nova"><Icone n="mais" s={18} /> Nova cliente</Link>
+        </div>
       </div>
-      <div className="card stack">
-        <form className="busca">
-          <input className="in" name="q" defaultValue={q} placeholder="Buscar por nome, CPF ou telefone…" autoFocus />
-          <button className="btn sec">Buscar</button>
-        </form>
-        <table className="lista">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th className="esconde-mob">Telefone</th>
-              <th className="esconde-mob">Idade</th>
-              <th className="num">Fichas</th>
-              <th className="esconde-mob">Última atualização</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lista.map((cl) => (
-              <tr key={cl.id}>
-                <td><Link href={`/clientes/${cl.id}`}><b>{cl.nome}</b></Link></td>
-                <td className="esconde-mob">{cl.telefone}</td>
-                <td className="esconde-mob">{idade(cl.nascimento) ?? ""}</td>
-                <td className="num">{Number(cl.n_fichas)}</td>
-                <td className="esconde-mob muted">{dataBR(cl.updated_at)}</td>
-              </tr>
-            ))}
-            {!lista.length && (
-              <tr><td colSpan={5} className="vazio">
-                {q ? "Nenhuma cliente encontrada." : <>Nenhuma cliente cadastrada ainda. <Link href="/clientes/nova">Cadastrar a primeira</Link></>}
-              </td></tr>
-            )}
-          </tbody>
-        </table>
+
+      <div className="card">
+        <div className="card-corpo" style={{ borderBottom: "1px solid var(--borda)" }}>
+          <form className="busca" role="search">
+            <Icone n="busca" s={18} />
+            <input className="in" type="search" name="q" defaultValue={q} placeholder="Buscar por nome, CPF ou telefone" aria-label="Buscar cliente" />
+          </form>
+        </div>
+        <div className="linhas">
+          {lista.map((cl) => {
+            const i = idade(cl.nascimento);
+            const n = Number(cl.n_fichas);
+            return (
+              <Link key={cl.id} href={`/clientes/${cl.id}`} className="linha">
+                <span className="avatar">{iniciais(cl.nome)}</span>
+                <span className="info">
+                  <span className="tit" style={{ display: "block" }}>{cl.nome}</span>
+                  <span className="meta">
+                    {cl.telefone && <span><Icone n="tel" s={13} />{cl.telefone}</span>}
+                    {i !== null && <span>{i} anos</span>}
+                    <span className="so-desk">Atualizada em {dataBR(cl.updated_at)}</span>
+                  </span>
+                </span>
+                <span className="lado">
+                  <span className={`pill${n ? "" : " cinza"}`}>{n} {n === 1 ? "ficha" : "fichas"}</span>
+                </span>
+                <Icone n="seta" s={18} className="seta" />
+              </Link>
+            );
+          })}
+          {!lista.length && (
+            <div className="vazio">
+              {q ? (
+                <><b>Nenhuma cliente encontrada</b>Confira a grafia ou busque pelo telefone.</>
+              ) : (
+                <>
+                  <b>Nenhuma cliente cadastrada ainda</b>Comece cadastrando a primeira.
+                  <br /><Link className="btn" href="/clientes/nova"><Icone n="mais" s={18} /> Cadastrar cliente</Link>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

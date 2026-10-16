@@ -7,6 +7,7 @@ import { COOKIE, DURACAO_S, credenciaisValidas, criarToken } from "@/lib/auth";
 import { exigirLogin } from "@/lib/sessao";
 import { agora, db, novoId } from "@/lib/db";
 import { isTipo, TIPOS } from "@/lib/fichas";
+import { mascaraCpf, mascaraRede, mascaraTelefone } from "@/lib/mascaras";
 
 // ---------------- login ----------------
 
@@ -45,6 +46,11 @@ function lerCliente(form: FormData) {
     const x = String(form.get(c) ?? "").trim();
     v[c] = x || null;
   }
+  // padroniza o formato salvo, mesmo que o navegador envie sem máscara
+  if (v.cpf) v.cpf = mascaraCpf(v.cpf);
+  if (v.telefone) v.telefone = mascaraTelefone(v.telefone);
+  if (v.rede_social) v.rede_social = mascaraRede(v.rede_social);
+  if (v.nome) v.nome = v.nome.replace(/\s+/g, " ");
   return v;
 }
 

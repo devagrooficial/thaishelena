@@ -1,20 +1,40 @@
 import Link from "next/link";
 import { sair } from "../actions";
+import { Nav } from "@/components/Nav";
+import { Icone } from "@/components/Icone";
+
+function Marca() {
+  return (
+    <Link href="/" className="marca">
+      <span className="logo">TH</span>
+      <span>
+        <b>Espaço Thaís Helena</b>
+        <small>Estria · Cicatriz · Flacidez</small>
+      </span>
+    </Link>
+  );
+}
 
 export default function AppLayout({ children }: LayoutProps<"/">) {
   return (
     <div className="app">
-      <nav className="side">
-        <div className="marca">ESPAÇO THAÍS HELENA</div>
-        <div className="tag">ESTRIA, CICATRIZ &amp; FLACIDEZ</div>
-        <Link href="/">Dashboard</Link>
-        <Link href="/clientes">Clientes</Link>
-        <Link href="/clientes/nova">+ Nova cliente</Link>
-        <form action={sair} className="fim">
-          <button className="link">Sair</button>
+      <aside className="side">
+        <Marca />
+        <Nav tipo="lateral" />
+        <form action={sair} className="side-fim">
+          <button className="nav-sair"><Icone n="sair" s={19} /> <span>Sair</span></button>
         </form>
-      </nav>
+      </aside>
+
+      <header className="mtopo">
+        <Marca />
+        <form action={sair}>
+          <button className="btn-icone" aria-label="Sair"><Icone n="sair" /></button>
+        </form>
+      </header>
+
       <main className="main">{children}</main>
+      <Nav tipo="inferior" />
     </div>
   );
 }
