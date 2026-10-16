@@ -87,9 +87,12 @@ export function prefill(tipo: TipoFicha, c: Cliente): Record<string, string | bo
 // ---------- leitura dos dados salvos (para dashboard e resumo) ----------
 
 type Linha = string[];
+// mesmo cálculo das fichas: "1.000" = mil, "1.000,50" = mil e cinquenta centavos, "2.5" = dois e meio
 const num = (s: string | undefined) => {
-  if (!s) return 0;
-  const v = parseFloat(s.replace(/[^\d,.-]/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", "."));
+  let t = String(s ?? "").replace(/[^\d,.-]/g, "");
+  if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+  else if (/\.\d{3}$/.test(t)) t = t.replace(/\./g, "");
+  const v = parseFloat(t);
   return Number.isFinite(v) ? v : 0;
 };
 
@@ -134,6 +137,19 @@ export function totalOrcamento(f: Pick<Ficha, "tipo" | "dados">): number {
   } catch {
     return 0;
   }
+}
+
+// Resumo financeiro de uma ficha. "pendente" = quanto falta receber:
+// total do orçamento − total pago; sem orçamento, soma das sessões marcadas como pendentes.
+export function financeiro(f: Pick<Ficha, "tipo" | "dados">) {
+  const orcado = totalOrcamento(f);
+  let pago = 0, marcadoPendente = 0;
+  for (const s of sessoesDa(f)) {
+    if (s.status === "Pago") pago += s.valor;
+    if (s.status === "Pendente") marcadoPendente += s.valor;
+  }
+  const pendente = orcado > 0 ? Math.max(orcado - pago, 0) : marcadoPendente;
+  return { orcado, pago, pendente };
 }
 
 export const brl = (v: number) =>

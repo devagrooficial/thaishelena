@@ -182,6 +182,13 @@
   .tp, .tpend { font-size: 16px !important; }
   .tp { color: var(--ok) !important; }
   .tpend { color: var(--erro) !important; }
+  .tpend.quitado { color: var(--ok) !important; }
+  /* coluna de totais larga o suficiente para "R$ 10.000,00" */
+  td .in, td select.in { padding: 8px 10px !important; }
+  #orc th:last-child { width: 150px !important; }
+  #orc th:nth-child(2) { width: 64px !important; }
+  #orc th:nth-child(3) { width: 120px !important; }
+  #orc .t, #orc .tg { text-align: right; font-variant-numeric: tabular-nums; }
 
   /* botões */
   .btn {

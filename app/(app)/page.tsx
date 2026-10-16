@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db, infoBanco } from "@/lib/db";
 import { exigirLogin } from "@/lib/sessao";
-import { FUSO, TIPOS, brl, dataBR, hoje, sessoesDa, type Ficha } from "@/lib/fichas";
+import { FUSO, TIPOS, brl, dataBR, financeiro, hoje, sessoesDa, type Ficha } from "@/lib/fichas";
 import { iniciais } from "@/lib/mascaras";
 import { Icone } from "@/components/Icone";
 
@@ -35,7 +35,7 @@ export default async function Dashboard() {
 
   const mes = hoje().slice(0, 7);
   let recebidoMes = 0, pendenteTotal = 0;
-  const pendencias: { cliente: string; clienteId: string; data: string; descricao: string; valor: number }[] = [];
+  const pendencias: { cliente: string; clienteId: string; fichaId: string; ficha: string; falta: number; orcado: number }[] = [];
   const clientesAtivos = new Set<string>();
 
   for (const f of fichas) {
@@ -44,20 +44,24 @@ export default async function Dashboard() {
         clientesAtivos.add(f.cliente_id);
         if (s.status === "Pago") recebidoMes += s.valor;
       }
-      if (s.status === "Pendente") {
-        pendenteTotal += s.valor;
-        pendencias.push({ cliente: f.nome, clienteId: f.cliente_id, data: s.data, descricao: s.descricao, valor: s.valor });
-      }
+    }
+    const fin = financeiro(f);
+    if (fin.pendente > 0) {
+      pendenteTotal += fin.pendente;
+      pendencias.push({
+        cliente: f.nome, clienteId: f.cliente_id, fichaId: f.id,
+        ficha: TIPOS[f.tipo]?.curto ?? f.tipo, falta: fin.pendente, orcado: fin.orcado,
+      });
     }
   }
-  pendencias.sort((a, b) => (a.data || "").localeCompare(b.data || ""));
+  pendencias.sort((a, b) => b.falta - a.falta);
   const nomeMes = new Date().toLocaleDateString("pt-BR", { month: "long", timeZone: FUSO });
 
   const kpis = [
     { rot: "Clientes cadastradas", val: String(totalClientes), ic: "clientes", cls: "" },
     { rot: `Atendidas em ${nomeMes}`, val: String(clientesAtivos.size), ic: "calendario", cls: "" },
     { rot: `Recebido em ${nomeMes}`, val: brl(recebidoMes), ic: "dinheiro", cls: "ok" },
-    { rot: "Pendente a receber", val: brl(pendenteTotal), ic: "alerta", cls: pendenteTotal ? "erro" : "" },
+    { rot: "Falta receber", val: brl(pendenteTotal), ic: "alerta", cls: pendenteTotal ? "erro" : "" },
   ];
 
   return (
@@ -113,16 +117,19 @@ export default async function Dashboard() {
 
         <div className="pilha">
           <div className="card">
-            <div className="card-cab"><h2>Pagamentos pendentes</h2>{pendencias.length > 0 && <span className="pill erro">{pendencias.length}</span>}</div>
+            <div className="card-cab"><h2>Falta receber</h2>{pendencias.length > 0 && <span className="pill erro">{pendencias.length}</span>}</div>
             <div className="linhas" style={{ marginTop: 10 }}>
-              {pendencias.slice(0, 6).map((p, i) => (
-                <Link key={i} href={`/clientes/${p.clienteId}`} className="linha">
+              {pendencias.slice(0, 6).map((p) => (
+                <a key={p.fichaId} href={`/f/${p.fichaId}`} className="linha">
                   <span className="info">
                     <span className="tit" style={{ display: "block" }}>{p.cliente}</span>
-                    <span className="meta">{[dataBR(p.data), p.descricao].filter(Boolean).map((x) => <span key={x}>{x}</span>)}</span>
+                    <span className="meta"><span>{p.ficha}</span>{p.orcado > 0 && <span>de {brl(p.orcado)}</span>}</span>
                   </span>
-                  <b className="num" style={{ color: "var(--erro)" }}>{brl(p.valor)}</b>
-                </Link>
+                  <span className="lado">
+                    <b className="num" style={{ color: "var(--erro)" }}>{brl(p.falta)}</b>
+                    <div className="muted">falta receber</div>
+                  </span>
+                </a>
               ))}
               {!pendencias.length && <div className="vazio">Nenhum pagamento pendente.</div>}
             </div>

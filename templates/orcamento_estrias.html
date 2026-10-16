@@ -81,7 +81,7 @@ td .in{border:none;font-size:13.5px}
 </table>
 <button class="btn" style="margin-top:8px" id="addS">+ Adicionar sessão</button>
 <table style="margin-top:10px">
-<tr><th colspan="2">Total pago</th><th colspan="2">Total pendente</th></tr>
+<tr><th colspan="2">Total pago</th><th colspan="2">Falta receber</th></tr>
 <tr><td colspan="2"><input class="in tp" readonly style="background:#FCE4EC;font-weight:600"></td>
 <td colspan="2"><input class="in tpend" readonly style="background:#FCE4EC;font-weight:600"></td></tr>
 </table>
@@ -133,27 +133,34 @@ function calcIdade(){
   if(m<0||(m===0&&hoje.getDate()<nasc.getDate())) id--;
   document.getElementById("idade").value=id>=0?id+" anos":"";
 }
+function numBR(s){ s=String(s||"").replace(/[^\d,.-]/g,""); if(s.indexOf(",")>=0) s=s.replace(/\./g,"").replace(",","."); else if(/\.\d{3}$/.test(s)) s=s.replace(/\./g,""); return parseFloat(s)||0; }
+const brl=x=>x.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+// "Falta receber" = total do orçamento − total pago (sem orçamento, soma das sessões marcadas como pendentes)
 function calcPag(){
   let pago=0, pend=0;
   document.querySelectorAll("#sessoes tr").forEach((tr,n)=>{
     if(n===0)return;
-    const v=parseFloat((tr.querySelector(".val").value||"").replace(",","."))||0;
-    const st=tr.querySelector(".st").value;
-    if(st==="Pago")pago+=v; else if(st==="Pendente")pend+=v;
+    const v=numBR(tr.querySelector(".val").value);
+    const st=tr.querySelector(".st");
+    if(!st){ pago+=v; return; }
+    if(st.value==="Pago")pago+=v; else if(st.value==="Pendente")pend+=v;
   });
-  const f=x=>x? x.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
-  const tp=document.querySelector(".tp"); if(tp)tp.value=f(pago);
-  const te=document.querySelector(".tpend"); if(te)te.value=f(pend);
+  const orc=window.__totOrc||0;
+  const falta=orc>0? Math.max(orc-pago,0) : pend;
+  const tp=document.querySelector(".tp"); if(tp)tp.value=pago? brl(pago):"";
+  const te=document.querySelector(".tpend");
+  if(te){ te.value= orc>0&&falta===0&&pago>0 ? "Quitado ✓" : (falta||orc? brl(falta) : ""); te.classList.toggle("quitado", orc>0&&falta===0&&pago>0); }
 }
 function calc(){
   let tot=0;
   document.querySelectorAll("#orc tr").forEach((tr,n)=>{
     if(n===0||tr.classList.contains("total"))return;
-    const q=parseFloat(tr.querySelector(".q").value.replace(",","."))||0;
-    const v=parseFloat(tr.querySelector(".v").value.replace(",","."))||0;
+    const q=numBR(tr.querySelector(".q").value);
+    const v=numBR(tr.querySelector(".v").value);
     const t=q*v; tot+=t;
     tr.querySelector(".t").value=t? t.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
   });
+  window.__totOrc=tot;
   document.querySelector(".tg").value=tot? tot.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
 }
 function coletar(){

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { exigirLogin } from "@/lib/sessao";
 import {
-  TIPOS, brl, dataBR, idade, sessoesDa, totalOrcamento,
+  TIPOS, brl, dataBR, financeiro, idade, sessoesDa,
   type Cliente, type Ficha, type TipoFicha,
 } from "@/lib/fichas";
 import { iniciais, linkWhatsApp } from "@/lib/mascaras";
@@ -42,12 +42,11 @@ export default async function ClientePage({ params, searchParams }: PageProps<"/
   let orcado = 0, pago = 0, pendente = 0;
   const historico: { data: string; descricao: string; valor: number; status: string; ficha: string }[] = [];
   for (const f of fichas) {
-    orcado += totalOrcamento(f);
-    for (const s of sessoesDa(f)) {
-      if (s.status === "Pago") pago += s.valor;
-      if (s.status === "Pendente") pendente += s.valor;
-      historico.push({ ...s, ficha: TIPOS[f.tipo]?.curto ?? f.tipo });
-    }
+    const fin = financeiro(f);
+    orcado += fin.orcado;
+    pago += fin.pago;
+    pendente += fin.pendente;
+    for (const s of sessoesDa(f)) historico.push({ ...s, ficha: TIPOS[f.tipo]?.curto ?? f.tipo });
   }
   historico.sort((a, b) => (b.data || "").localeCompare(a.data || ""));
   const anos = idade(cliente.nascimento);
@@ -166,9 +165,9 @@ export default async function ClientePage({ params, searchParams }: PageProps<"/
               <div className="fin">
                 <div><span>Total orçado</span><b>{brl(orcado)}</b></div>
                 <div><span>Pago</span><b style={{ color: "var(--ok)" }}>{brl(pago)}</b></div>
-                <div><span>Pendente</span><b style={{ color: pendente ? "var(--erro)" : undefined }}>{brl(pendente)}</b></div>
+                <div><span>Falta receber</span><b style={{ color: pendente ? "var(--erro)" : undefined }}>{brl(pendente)}</b></div>
               </div>
-              <p className="muted" style={{ margin: "10px 0 0" }}>Calculado a partir das tabelas de orçamento e pagamentos das fichas.</p>
+              <p className="muted" style={{ margin: "10px 0 0" }}>Falta receber = total orçado − total pago, somando as fichas de orçamento.</p>
             </div>
           </div>
         </div>

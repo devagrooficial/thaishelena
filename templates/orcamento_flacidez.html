@@ -77,6 +77,11 @@ td .in{border:none;font-size:13.5px}
 <tr><th style="width:130px">Data</th><th>Sessão</th><th style="width:110px">Valor pago (R$)</th><th>Observações</th><th style="width:40px"></th></tr>
 </table>
 <button class="btn" style="margin-top:8px" id="addS">+ Adicionar sessão</button>
+<table style="margin-top:10px">
+<tr><th colspan="2">Total pago</th><th colspan="2">Falta receber</th></tr>
+<tr><td colspan="2"><input class="in tp" readonly style="background:#FCE4EC;font-weight:600"></td>
+<td colspan="2"><input class="in tpend" readonly style="background:#FCE4EC;font-weight:600"></td></tr>
+</table>
 
 <div class="sec">Orientações pós-procedimento</div>
 <div class="box"><ul style="margin:4px 0;padding-left:18px">
@@ -110,19 +115,38 @@ const KEY = "ficha_orcamento_thais_v1";
 function addSessao(d){
   const t=document.getElementById("sessoes");
   const r=t.insertRow();
-  r.innerHTML='<td><input class="in" type="date"></td><td><input class="in"></td><td><input class="in"></td><td><input class="in"></td><td><button class="btn del" style="padding:2px 10px">✕</button></td>';
+  r.innerHTML='<td><input class="in" type="date"></td><td><input class="in"></td><td><input class="in val"></td><td><input class="in"></td><td><button class="btn del" style="padding:2px 10px">✕</button></td>';
   r.querySelector('.del').addEventListener('click',function(){r.remove();salvar();});
   if(d) r.querySelectorAll("input").forEach((i,n)=>i.value=d[n]||"");
+}
+function numBR(s){ s=String(s||"").replace(/[^\d,.-]/g,""); if(s.indexOf(",")>=0) s=s.replace(/\./g,"").replace(",","."); else if(/\.\d{3}$/.test(s)) s=s.replace(/\./g,""); return parseFloat(s)||0; }
+const brl=x=>x.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+// "Falta receber" = total do orçamento − total pago (sem orçamento, soma das sessões marcadas como pendentes)
+function calcPag(){
+  let pago=0, pend=0;
+  document.querySelectorAll("#sessoes tr").forEach((tr,n)=>{
+    if(n===0)return;
+    const v=numBR(tr.querySelector(".val").value);
+    const st=tr.querySelector(".st");
+    if(!st){ pago+=v; return; }
+    if(st.value==="Pago")pago+=v; else if(st.value==="Pendente")pend+=v;
+  });
+  const orc=window.__totOrc||0;
+  const falta=orc>0? Math.max(orc-pago,0) : pend;
+  const tp=document.querySelector(".tp"); if(tp)tp.value=pago? brl(pago):"";
+  const te=document.querySelector(".tpend");
+  if(te){ te.value= orc>0&&falta===0&&pago>0 ? "Quitado ✓" : (falta||orc? brl(falta) : ""); te.classList.toggle("quitado", orc>0&&falta===0&&pago>0); }
 }
 function calc(){
   let tot=0;
   document.querySelectorAll("#orc tr").forEach((tr,n)=>{
     if(n===0||tr.classList.contains("total"))return;
-    const q=parseFloat(tr.querySelector(".q").value.replace(",","."))||0;
-    const v=parseFloat(tr.querySelector(".v").value.replace(",","."))||0;
+    const q=numBR(tr.querySelector(".q").value);
+    const v=numBR(tr.querySelector(".v").value);
     const t=q*v; tot+=t;
     tr.querySelector(".t").value=t? t.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
   });
+  window.__totOrc=tot;
   document.querySelector(".tg").value=tot? tot.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
 }
 function coletar(){
@@ -132,7 +156,7 @@ function coletar(){
   document.querySelectorAll("#sessoes tr").forEach((tr,n)=>{ if(n>0) v.sessoes.push([...tr.querySelectorAll("input")].map(i=>i.value)); });
   return v;
 }
-function salvar(){ calc(); persist(coletar()); }
+function salvar(){ calc(); calcPag(); persist(coletar()); }
 function limpar(){ if(confirm("Apagar todos os dados preenchidos?")){ limparFicha(); } }
 (function(){
   const v=FICHA.dados;
@@ -144,7 +168,7 @@ function limpar(){ if(confirm("Apagar todos os dados preenchidos?")){ limparFich
     Object.entries(PADRAO).forEach(([k,val])=>{ const el=document.getElementById(k); if(!el)return; if(el.type==="checkbox"||el.type==="radio") el.checked=!!val; else el.value=val; });
   }
   if(document.querySelectorAll("#sessoes tr").length<=1){ addSessao(); addSessao(); addSessao(); }
-  calc();
+  calc(); calcPag();
 })();
 document.body.addEventListener("input",salvar);
 document.getElementById("addS").addEventListener("click",function(){addSessao();salvar();});
