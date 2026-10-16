@@ -48,7 +48,7 @@ export default async function Clientes({ searchParams }: PageProps<"/clientes">)
         <div className="card-corpo" style={{ borderBottom: "1px solid var(--borda)" }}>
           <form className="busca" role="search">
             <Icone n="busca" s={18} />
-            <input className="in" type="search" name="q" defaultValue={q} placeholder="Buscar por nome, CPF ou telefone" aria-label="Buscar cliente" />
+            <input className="in" type="search" name="q" defaultValue={q} placeholder="Nome, CPF ou telefone" aria-label="Buscar cliente" />
           </form>
         </div>
         <div className="linhas">

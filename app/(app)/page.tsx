@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { db, infoBanco } from "@/lib/db";
 import { exigirLogin } from "@/lib/sessao";
 import { FUSO, TIPOS, brl, dataBR, hoje, sessoesDa, type Ficha } from "@/lib/fichas";
 import { iniciais } from "@/lib/mascaras";
@@ -145,6 +145,10 @@ export default async function Dashboard() {
             </div>
           </div>
         </div>
+      </div>
+      <div className={`banco so-mob${infoBanco.permanente ? "" : " temp"}`} style={{ marginTop: 20 }}>
+        <span className="ponto" /> Banco: {infoBanco.tipo}
+        <small>{infoBanco.local}</small>
       </div>
     </>
   );

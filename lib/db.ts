@@ -2,20 +2,44 @@ import "server-only";
 import { createClient, type Client } from "@libsql/client";
 
 // Local: arquivo SQLite em ./data/local.db
-// Vercel: banco Turso (libSQL) via TURSO_DATABASE_URL + TURSO_AUTH_TOKEN
-const url = process.env.TURSO_DATABASE_URL || "file:./data/local.db";
+// Vercel: banco Turso (libSQL). Aceita TURSO_DATABASE_URL / TURSO_AUTH_TOKEN e também os mesmos
+// nomes com prefixo (ex.: STORAGE_TURSO_DATABASE_URL), como algumas integrações do Vercel criam.
+function lerEnv(...nomes: string[]): string | undefined {
+  for (const n of nomes) {
+    const v = process.env[n]?.trim();
+    if (v) return v;
+  }
+  for (const n of nomes) {
+    const chave = Object.keys(process.env).find((k) => k.endsWith(`_${n}`) && process.env[k]?.trim());
+    if (chave) return process.env[chave]!.trim();
+  }
+  return undefined;
+}
 
-if (process.env.VERCEL && url.startsWith("file:")) {
+const url = lerEnv("TURSO_DATABASE_URL", "LIBSQL_URL", "TURSO_URL") || "file:./data/local.db";
+const authToken = lerEnv("TURSO_AUTH_TOKEN", "LIBSQL_AUTH_TOKEN", "TURSO_TOKEN");
+
+// Em servidor (Vercel), um banco em arquivo ou em memória some a cada deploy — não pode ser usado.
+const emServidor = Boolean(
+  process.env.VERCEL || process.env.VERCEL_ENV || process.env.VERCEL_URL || process.env.AWS_LAMBDA_FUNCTION_NAME,
+);
+const remoto = /^(libsql|https?|wss?):\/\//i.test(url);
+
+if (emServidor && !remoto) {
   throw new Error(
-    "Configure TURSO_DATABASE_URL e TURSO_AUTH_TOKEN no Vercel — o disco do Vercel não guarda arquivos.",
+    "Banco de dados não configurado: defina TURSO_DATABASE_URL (libsql://…) e TURSO_AUTH_TOKEN nas variáveis do Vercel e faça Redeploy. " +
+      "Sem isso os dados seriam apagados a cada atualização.",
   );
 }
 
+// Informação exibida no menu para conferir qual banco está em uso (sem expor o token).
+export const infoBanco = remoto
+  ? { tipo: "Turso", local: new URL(url).host, permanente: true }
+  : { tipo: "Arquivo local", local: url.replace(/^file:/, ""), permanente: !emServidor };
+
 const g = globalThis as unknown as { __db?: Client; __dbReady?: Promise<void> };
 
-const client =
-  g.__db ??
-  (g.__db = createClient({ url, authToken: process.env.TURSO_AUTH_TOKEN }));
+const client = g.__db ?? (g.__db = createClient({ url, authToken }));
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS clientes (

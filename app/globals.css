@@ -67,7 +67,11 @@ h2 { font-size: 16px; font-weight: 700; }
 }
 .nav-lat a:hover, .nav-sair:hover { background: var(--marca-suave); color: var(--marca-esc); }
 .nav-lat a.ativo { background: var(--marca-claro); color: var(--marca-esc); }
-.side-fim { margin-top: auto; border-top: 1px solid var(--borda); padding-top: 12px; }
+.side-fim { margin-top: auto; border-top: 1px solid var(--borda); padding-top: 12px; display: grid; gap: 6px; }
+.banco { font-size: 12px; font-weight: 600; color: var(--texto-2); padding: 4px 12px; display: grid; grid-template-columns: auto 1fr; column-gap: 7px; align-items: center; }
+.banco .ponto { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+.banco small { grid-column: 2; font-weight: 500; color: var(--texto-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.banco.temp .ponto { background: var(--aviso); }
 
 .mtopo, .tabbar { display: none; }
 .main { padding: 32px 40px 48px; max-width: 1180px; width: 100%; min-width: 0; }
@@ -152,6 +156,7 @@ input[type="date"].in { min-height: 44px; }
 .segmento label:has(input:focus-visible) { box-shadow: var(--foco); }
 
 .form-rodape {
+  flex-wrap: wrap; align-items: center;
   display: flex; justify-content: flex-end; gap: 10px; padding: 16px 24px; border-top: 1px solid var(--borda);
   background: var(--marca-suave); border-radius: 0 0 var(--raio) var(--raio);
 }
@@ -263,7 +268,7 @@ details.card[open] > summary .gira { transform: rotate(90deg); }
 }
 
 @media (max-width: 860px) {
-  .app { grid-template-columns: 1fr; }
+  .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; align-content: start; }
   .side { display: none; }
   .mtopo {
     display: flex; position: sticky; top: 0; z-index: 30; align-items: center; justify-content: space-between;
@@ -325,3 +330,5 @@ details.card[open] > summary .gira { transform: rotate(90deg); }
 }
 
 @media (min-width: 861px) { .so-mob { display: none !important; } }
+
+.form-aviso { flex-basis: 100%; order: -1; margin: 0; }
