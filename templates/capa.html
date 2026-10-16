@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capa — Espaço Thaís Helena | Estética Avançada</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',Roboto,sans-serif;background:#FDF3F7;color:#3d2b33;margin:0;padding:16px}
+.wrap{max-width:780px;margin:0 auto;background:#fff;border:2px solid #E85D8A;border-radius:14px;padding:0;box-shadow:0 2px 12px rgba(232,93,138,.12);overflow:hidden}
+.topo{background:linear-gradient(135deg,#E85D8A,#F8BBD0);padding:36px 24px;text-align:center;color:#fff}
+.topo .marca{font-size:26px;letter-spacing:3px;font-weight:700}
+.topo .tag{font-size:12px;letter-spacing:4px;margin-top:4px;opacity:.92}
+.corpo{padding:32px 36px}
+label{display:block;font-size:12px;color:#a06a80;margin-top:14px}
+.in{width:100%;border:none;border-bottom:1px solid #F1A8C4;padding:4px 2px;font-size:15px;background:transparent;outline:none}
+.in:focus{border-bottom:2px solid #E85D8A}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+.sec{background:#E85D8A;color:#fff;font-size:14px;font-weight:600;border-radius:8px;padding:7px 14px;margin:24px 0 4px;text-align:center}
+.doc{border:1px solid #F1A8C4;border-radius:10px;padding:10px 14px;margin-top:8px;font-size:13.5px;line-height:1.7;background:#FDF3F7}
+.doc label{display:flex;align-items:center;gap:8px;margin:0;color:#3d2b33}
+input[type=checkbox]{accent-color:#E85D8A;width:16px;height:16px}
+.msg{border:1px solid #F1A8C4;border-radius:10px;padding:14px;margin-top:8px;font-size:13.5px;line-height:1.6;background:#FDF3F7;font-style:italic}
+.rodape{margin-top:28px;text-align:center}
+.rodape .ass{width:280px;margin:36px auto 4px;border-top:1px solid #E85D8A;padding-top:5px;font-size:12px;color:#a06a80}
+.btns{display:flex;gap:8px;justify-content:center;margin:16px 0}
+.btn{border:1px solid #E85D8A;background:#fff;color:#B03A66;border-radius:10px;padding:8px 18px;font-size:14px;cursor:pointer}
+.btn:hover{background:#FCE4EC}
+.note{font-size:12px;color:#a06a80;font-style:italic;text-align:center;margin-bottom:8px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+@media print{body{background:#fff}.wrap{border:none;box-shadow:none}.btns,.note{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="topo">
+  <div class="marca">ESPAÇO THAÍS HELENA</div>
+  <div class="tag">TRATAMENTO DE ESTRIA, CICATRIZ & FLACIDEZ</div>
+</div>
+
+<div class="corpo">
+
+<label>Cliente</label>
+<input class="in" id="c0">
+<div class="grid">
+  <div><label>Tratamento realizado</label><input class="in" id="c1"></div>
+  <div><label>Profissional responsável</label><input class="in" id="c2"></div>
+  <div><label>Data de início</label><input class="in" type="date" id="c3"></div>
+  <div><label>Total de sessões realizadas</label><input class="in" id="c5"></div>
+</div>
+
+<div class="sec">Documentos entregues</div>
+<div class="doc">
+<label><input type="checkbox" id="d1"> Ficha de orçamento</label><br>
+<label><input type="checkbox" id="d2"> Ficha de tratamento</label><br>
+<label><input type="checkbox" id="d3"> Ficha de anamnese</label><br>
+<label><input type="checkbox" id="d4"> Registro de sessões</label><br>
+<label><input type="checkbox" id="d5"> Termo de aceite</label><br>
+<label><input type="checkbox" id="d6"> Orientações de manutenção e cuidados em casa</label><br>
+</div>
+
+<div class="sec">Mensagem final</div>
+<div class="msg">É com muita alegria que entrego este material com todo o histórico do seu tratamento no Espaço Thaís Helena. Agradeço a confiança e a dedicação em cada sessão. Os cuidados em casa são fundamentais para manter os resultados alcançados. Estou à disposição para o que precisar.</div>
+
+<div class="rodape">
+  <div class="ass">Thaís Helena de Jesus R. Magalhães — Profissional responsável</div>
+</div>
+
+</div>
+</div>
+
+<div class="btns">
+  <button class="btn" onclick="salvar();persistAgora()">Salvar</button>
+  <button class="btn" onclick="window.print()">Imprimir / PDF</button>
+  <button class="btn" onclick="limpar()">Limpar dados</button>
+</div>
+<div class="note">Os dados ficam salvos automaticamente no sistema a cada alteração.</div>
+
+<script>
+const PADRAO = Object.assign({ c0:"", c1:"Dermalift — flacidez do colo e estrias", c2:"Thaís Helena", c5:"" }, FICHA.prefill);
+const KEY = "capa_thais_v2";
+function salvar(){
+  const v={};
+  document.querySelectorAll(".in[id]").forEach(i=>v[i.id]=i.value);
+  ["d1","d2","d3","d4","d5","d6"].forEach(id=>v[id]=document.getElementById(id).checked);
+  persist(v);
+}
+function limpar(){ if(confirm("Apagar todos os dados preenchidos?")){ limparFicha(); } }
+(function(){
+  const v=FICHA.dados;
+  if(v){
+    Object.entries(v).forEach(([k,val])=>{ const el=document.getElementById(k); if(!el)return;
+      if(el.type==="checkbox") el.checked=val; else el.value=val; });
+  } else {
+    Object.entries(PADRAO).forEach(([k,val])=>{ const el=document.getElementById(k); if(!el)return; if(el.type==="checkbox"||el.type==="radio") el.checked=!!val; else el.value=val; });
+  }
+})();
+document.body.addEventListener("input",salvar);
+document.body.addEventListener("change",function(e){if(e.target.type==="checkbox"||e.target.type==="date")salvar();});
+</script>
+</body>
+</html>

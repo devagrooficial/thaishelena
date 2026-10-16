@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ficha de Anamnese — Tratamento de Estrias | Espaço Thaís Helena</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',Roboto,sans-serif;background:#FDF3F7;color:#3d2b33;margin:0;padding:16px}
+.wrap{max-width:780px;margin:0 auto;background:#fff;border:2px solid #E85D8A;border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(232,93,138,.12)}
+.head{border:1.5px solid #E85D8A;border-radius:12px;padding:16px 20px;text-align:center;margin-bottom:14px;background:#FCE4EC}
+.brand{font-size:17px;letter-spacing:2px;color:#B03A66;font-weight:700}
+.tagline{font-size:12px;letter-spacing:3px;color:#C24A78;margin-top:2px}
+.doctitle{display:inline-block;background:#E85D8A;color:#fff;border-radius:8px;padding:4px 18px;font-size:14px;font-weight:600;margin-top:10px}
+.sec{background:#E85D8A;color:#fff;font-size:14px;font-weight:600;border-radius:8px;padding:7px 14px;margin:20px 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px}
+.full{grid-column:1/-1}
+label{display:block;font-size:12px;color:#a06a80;margin-top:6px}
+.in{width:100%;border:none;border-bottom:1px solid #F1A8C4;padding:4px 2px;font-size:14px;background:transparent;outline:none}
+.in:focus{border-bottom:2px solid #E85D8A}
+.mini{display:inline-block;width:190px;border:none;border-bottom:1px solid #F1A8C4;font-size:13px;padding:2px;background:transparent;outline:none;margin-left:4px}
+.mini:focus{border-bottom:2px solid #E85D8A}
+.perg{border-bottom:1px dashed #F1A8C4;padding:7px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.perg .t{font-size:14px}
+.chk{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px}
+.chk label{display:flex;align-items:center;gap:5px;margin:0;color:#3d2b33}
+input[type=checkbox],input[type=radio]{accent-color:#E85D8A;width:16px;height:16px}
+.boxes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.bx{border:1.5px solid #E85D8A;border-radius:10px;padding:8px 10px;background:#FDF3F7}
+.bx h4{margin:0 0 4px;text-align:center;font-size:12.5px;color:#B03A66;letter-spacing:1px}
+.bx label{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#3d2b33;margin:3px 0}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px}
+th{background:#F8BBD0;color:#7a2e4e;padding:6px;border:1px solid #F1A8C4;text-align:left;font-weight:600}
+td{border:1px solid #F1A8C4;padding:4px}
+td .in{border:none;font-size:13.5px}
+.doc{border:1px solid #F1A8C4;border-radius:10px;padding:12px 14px;margin-top:8px;font-size:13px;line-height:1.6;background:#FDF3F7}
+.btns{display:flex;gap:8px;justify-content:center;margin:18px 0 8px;flex-wrap:wrap}
+.btn{border:1px solid #E85D8A;background:#fff;color:#B03A66;border-radius:10px;padding:8px 18px;font-size:14px;cursor:pointer}
+.btn:hover{background:#FCE4EC}
+.sig{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px}
+.sig div{border-top:1px solid #E85D8A;padding-top:5px;font-size:12px;color:#a06a80;text-align:center}
+.note{font-size:12px;color:#a06a80;font-style:italic;margin-top:10px;text-align:center}
+@media(max-width:600px){.grid,.boxes,.sig{grid-template-columns:1fr 1fr}.boxes{grid-template-columns:1fr 1fr}}
+@media print{body{background:#fff}.wrap{border:none;box-shadow:none}.btns,.note{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="head">
+  <div class="brand">ESPAÇO THAÍS HELENA</div>
+  <div class="tagline">TRATAMENTO DE ESTRIA, CICATRIZ & FLACIDEZ</div>
+  <div class="doctitle">Ficha de Anamnese — Tratamento de Estrias</div>
+</div>
+
+<div class="sec">Identificação</div>
+<div class="grid">
+  <div class="full"><label>Nome</label><input class="in" id="c0"></div>
+  <div><label>CPF</label><input class="in" id="cpf" placeholder="000.000.000-00" maxlength="14"></div>
+  <div><label>Nascimento</label><input class="in" type="date" id="c1" onchange="calcIdade()"></div>
+  <div><label>Idade</label><input class="in" id="idade" readonly style="background:#FDF3F7" tabindex="-1"></div>
+  <div><label>Telefone</label><input class="in" id="c2" placeholder="(  )"></div>
+  <div><label>Endereço</label><input class="in" id="c3"></div>
+  <div><label>Rede social</label><input class="in" id="c4" placeholder="@"></div>
+  <div class="full"><label>Sexo</label>
+    <div class="chk">
+      <label><input type="radio" name="sx" id="s1"> Feminino</label>
+      <label><input type="radio" name="sx" id="s2"> Masculino</label>
+    </div>
+  </div>
+</div>
+
+<div class="sec">Hábitos e saúde</div>
+<div class="perg"><span class="t">Se expõe ao sol com frequência?</span><div class="chk"><label><input type="checkbox" id="q1"> Sim</label><label><input type="checkbox" id="q2"> Não</label></div></div>
+<div class="perg"><span class="t">Consome alimentos de alto índice glicêmico (açúcar, gordura, carboidrato)?</span><div class="chk"><label><input type="checkbox" id="q3"> Sim</label><label><input type="checkbox" id="q4"> Não</label></div></div>
+<div class="perg"><span class="t">Ingere água com frequência?</span><div class="chk"><label><input type="checkbox" id="q5"> Sim</label><label><input type="checkbox" id="q6"> Não</label></div></div>
+<div class="perg"><span class="t">Ingere bebida alcoólica?</span><div class="chk"><label><input type="checkbox" id="q7"> Sim</label><label><input type="checkbox" id="q8"> Não</label></div></div>
+<div class="perg"><span class="t">Está tomando algum medicamento?</span><div class="chk"><label><input type="checkbox" id="q9"> Sim</label><label><input type="checkbox" id="q10"> Não</label></div></div>
+<label>Especifique:</label><input class="in" id="c5">
+<div class="perg"><span class="t">Tabagismo?</span><div class="chk"><label><input type="checkbox" id="q11"> Sim</label><label><input type="checkbox" id="q12"> Não</label></div></div>
+<div class="perg"><span class="t">Tratamento de estrias anterior?</span><div class="chk"><label><input type="checkbox" id="q13"> Sim</label><label><input type="checkbox" id="q14"> Não</label></div></div>
+<label>Qual?</label><input class="in" id="c6">
+<div class="perg"><span class="t">Utiliza filtro solar?</span><div class="chk"><label><input type="checkbox" id="q15"> Sim</label><label><input type="checkbox" id="q16"> Não</label></div></div>
+<div class="perg"><span class="t">Possui boa qualidade do sono?</span><div class="chk"><label><input type="checkbox" id="q17"> Sim</label><label><input type="checkbox" id="q18"> Não</label></div></div>
+<div class="perg"><span class="t">Possui algum tipo de alergia?</span><div class="chk"><label><input type="checkbox" id="q19"> Sim</label><label><input type="checkbox" id="q20"> Não</label></div></div>
+<label>Especifique:</label><input class="in" id="c7">
+<div class="perg"><span class="t">Problemas de pele?</span><div class="chk"><label><input type="checkbox" id="q21"> Sim</label><label><input type="checkbox" id="q22"> Não</label></div></div>
+<label>Qual?</label><input class="in" id="c8">
+<div class="perg"><span class="t">Queloide ou cicatriz hipertrófica?</span><div class="chk"><label><input type="checkbox" id="q23"> Sim</label><label><input type="checkbox" id="q24"> Não</label></div></div>
+<label>Especifique:</label><input class="in" id="c8b">
+
+<div class="sec">Avaliação das estrias</div>
+<div class="boxes">
+  <div class="bx"><h4>ESTRIAS</h4>
+    <label><input type="checkbox" id="e1"> Branca</label>
+    <label><input type="checkbox" id="e2"> Marrom</label>
+    <label><input type="checkbox" id="e3"> Vermelha</label>
+    <label><input type="checkbox" id="e4"> Roxa nova</label>
+    <label><input type="checkbox" id="e5"> Roxa antiga</label>
+    <label><input type="checkbox" id="e6"> Cor da pele</label>
+    <label><input type="checkbox" id="e7"> + cores</label>
+  </div>
+  <div class="bx"><h4>ESPESSURA</h4>
+    <label><input type="checkbox" id="e8"> Muito fina</label>
+    <label><input type="checkbox" id="e9"> Média</label>
+    <label><input type="checkbox" id="e10"> Grossa</label>
+    <label><input type="checkbox" id="e11"> Muito grossa</label>
+  </div>
+  <div class="bx"><h4>PROFUNDIDADE</h4>
+    <label><input type="checkbox" id="e12"> Não funda</label>
+    <label><input type="checkbox" id="e13"> Pouco funda</label>
+    <label><input type="checkbox" id="e14"> Muito funda</label>
+  </div>
+  <div class="bx"><h4>FOTOTIPO</h4>
+    <label><input type="checkbox" id="e15"> Baixo</label>
+    <label><input type="checkbox" id="e16"> Médio baixo</label>
+    <label><input type="checkbox" id="e17"> Médio alto</label>
+    <label><input type="checkbox" id="e18"> Alto</label>
+  </div>
+</div>
+
+<div class="sec">Sobre o tratamento de estrias</div>
+<div class="doc" style="text-align:justify">O tratamento de estrias do Espaço Thaís Helena é um protocolo que estimula a pele de forma controlada, favorecendo a produção de colágeno e contribuindo para melhora na aparência, textura e uniformidade das estrias. As estrias vermelhas (recentes) costumam responder melhor que as brancas (antigas), e os resultados são progressivos e individuais. O tratamento é acumulativo, com melhora gradual a cada sessão, e requer cuidados em casa e proteção solar para potencializar os resultados.</div>
+
+<div class="sec">Regiões do tratamento</div>
+<div class="doc">
+<div class="chk">
+  <label><input type="checkbox" id="r1"> Colo</label>
+  <label><input type="checkbox" id="r2"> Seios</label>
+  <label><input type="checkbox" id="r3"> Abdome</label>
+  <label><input type="checkbox" id="r4"> Flancos</label>
+  <label><input type="checkbox" id="r5"> Costas</label>
+  <label><input type="checkbox" id="r6"> Braços</label>
+  <label><input type="checkbox" id="r7"> Glúteos</label>
+  <label><input type="checkbox" id="r8"> Coxas</label>
+  <label><input type="checkbox" id="r9"> Panturrilha</label>
+  <label><input type="checkbox" id="r11"> Joelho</label>
+  <label><input type="checkbox" id="r12"> Ombro</label>
+  <label><input type="checkbox" id="r13"> Pescoço</label>
+  <label><input type="checkbox" id="r14"> Virilha</label>
+  <label><input type="checkbox" id="r15"> Axila</label>
+  <label><input type="checkbox" id="r16"> Cotovelo</label>
+  <label><input type="checkbox" id="r9b"> Pernas</label>
+  <label><input type="checkbox" id="r10"> Outro: <input class="in" id="c9" style="display:inline;width:120px;border-bottom:1px solid #F1A8C4"></label>
+</div>
+</div>
+<table id="regs">
+<tr><th>Região</th><th style="width:110px">Sessões previstas</th></tr>
+</table>
+<button class="btn" style="margin-top:8px" id="addR">+ Adicionar região</button>
+
+<div class="sec">Controle de sessões</div>
+<table id="sessoes">
+<tr><th style="width:130px">Data</th><th>Procedimento</th><th>Cliente</th><th style="width:40px"></th></tr>
+</table>
+<button class="btn" style="margin-top:8px" id="addS">+ Adicionar sessão</button>
+
+<div class="sec">Termo de consentimento e uso de imagem</div>
+<div class="doc" style="text-align:justify">
+Eu, <b id="termoNome">__________________________________________</b>, estou ciente das informações e medidas discutidas em relação ao tratamento regenerativo de estrias, que envolve técnicas manuais estéticas. Concordo em realizar todas as sessões do tratamento conforme proposto.<br><br>
+<b>Veracidade das informações:</b> confirmo que todas as informações fornecidas nesta ficha de anamnese são verdadeiras e completas. Estou ciente de que a precisão dessas informações é essencial para a segurança e eficácia do tratamento.<br><br>
+<b>Início do tratamento:</b> declaro que, após a análise e discussão dos procedimentos, estou de acordo em iniciar o tratamento.<br><br>
+<b>Expectativas e resultados:</b> estou ciente de que este tratamento é acumulativo e requer um mínimo de 3 sessões para que os resultados sejam observados. Reconheço que cada pele reage de forma diferente e que os resultados podem variar de pessoa para pessoa. Não há garantias de resultados.<br><br>
+<b>Comprometimento pessoal:</b> estou ciente de que o sucesso do tratamento depende dos meus cuidados e comprometimento, os quais impactam em até 50% dos resultados. Concordo em seguir todas as orientações e recomendações fornecidas pela profissional.<br><br>
+<b>Interrupção do tratamento:</b> caso eu decida interromper o tratamento por vontade própria, concordo que o valor do pacote (combo) não será reembolsável. No entanto, em caso de contraindicações médicas ou efeitos colaterais, a continuidade do tratamento será reavaliada.<br><br>
+<b>Autorização para uso da imagem:</b> AUTORIZO o uso da minha imagem em fotos, documentos, redes sociais, campanhas promocionais e institucionais relacionadas à profissional responsável, destinado à divulgação ao público em geral, apenas para fins internos e/ou particulares da profissional, desde que não haja desvirtuamento da finalidade. Estou ciente de que posso revogar esta autorização a qualquer momento, mediante notificação.<br><br>
+<b>Limitação de responsabilidade:</b> a profissional não se responsabiliza por resultados adversos que possam ocorrer devido a informações incompletas ou falsas fornecidas por mim, ou por não seguir as orientações recomendadas.<br><br>
+Por estar de acordo com os termos acima, assino este termo.
+</div>
+<div class="grid">
+  <div><label>Local</label><input class="in" id="c10"></div>
+  <div><label>Data</label><input class="in" type="date" id="c11"></div>
+</div>
+<div class="sig">
+  <div>Assinatura do cliente</div>
+  <div>Assinatura da profissional — Thaís Helena de Jesus R. Magalhães</div>
+</div>
+
+<div class="btns">
+  <button class="btn" onclick="salvar();persistAgora()">Salvar</button>
+  <button class="btn" onclick="window.print()">Imprimir / PDF</button>
+  <button class="btn" onclick="limpar()">Limpar dados</button>
+</div>
+<div class="note">Os dados ficam salvos automaticamente no sistema a cada alteração.</div>
+</div>
+
+<script>
+const PADRAO = Object.assign({ c0:"", c1:"", c2:"", c3:"", c4:"", c5:"", c6:"", c7:"", c8:"", c9:"", c10:"", c11:"" }, FICHA.prefill);
+const KEY = "anamnese_estrias_thais_v1";
+function addSessao(d){
+  const t=document.getElementById("sessoes");
+  const r=t.insertRow();
+  r.innerHTML='<td><input class="in" type="date"></td><td><input class="in"></td><td><input class="in"></td><td><button class="btn del" style="padding:2px 10px">✕</button></td>';
+  r.querySelector('.del').addEventListener('click',function(){r.remove();salvar();});
+  if(d) r.querySelectorAll("input").forEach((i,n)=>i.value=d[n]||"");
+}
+function addReg(d){
+  const t=document.getElementById("regs");
+  const r=t.insertRow();
+  r.innerHTML='<td><input class="in"></td><td><input class="in"></td>';
+  if(d) r.querySelectorAll("input").forEach((i,n)=>i.value=d[n]||"");
+}
+function coletar(){
+  const v={campos:{},checks:{},sessoes:[],regs:[]};
+  document.querySelectorAll(".in[id]").forEach(i=>v.campos[i.id]=i.value);
+  document.querySelectorAll('input[type=checkbox],input[type=radio]').forEach(i=>{if(i.id)v.checks[i.id]=i.checked;});
+  document.querySelectorAll("#sessoes tr").forEach((tr,n)=>{ if(n>0) v.sessoes.push([...tr.querySelectorAll("input")].map(i=>i.value)); });
+  document.querySelectorAll("#regs tr").forEach((tr,n)=>{ if(n>0) v.regs.push([...tr.querySelectorAll("input")].map(i=>i.value)); });
+  return v;
+}
+function calcIdade(){
+  const n=document.getElementById("c1").value; if(!n)return;
+  const hoje=new Date(); const nasc=new Date(n);
+  let id=hoje.getFullYear()-nasc.getFullYear();
+  const m=hoje.getMonth()-nasc.getMonth();
+  if(m<0||(m===0&&hoje.getDate()<nasc.getDate())) id--;
+  document.getElementById("idade").value=id>=0?id+" anos":"";
+}
+document.getElementById("cpf").addEventListener("input",function(){
+  let v=this.value.replace(/\D/g,"").slice(0,11);
+  v=v.replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d{1,2})$/,"$1-$2");
+  this.value=v;
+});
+function termo(){ const n=document.getElementById("c0").value.trim(); document.getElementById("termoNome").textContent=n||"__________________________________________"; }
+function salvar(){ calcIdade(); termo(); persist(coletar()); }
+function limpar(){ if(confirm("Apagar todos os dados preenchidos?")){ limparFicha(); } }
+(function(){
+  const v=FICHA.dados;
+  if(v){
+    Object.entries(v.campos||{}).forEach(([k,val])=>{ const el=document.getElementById(k); if(el) el.value=val; });
+    Object.entries(v.checks||{}).forEach(([k,val])=>{ const el=document.getElementById(k); if(el) el.checked=val; });
+    (v.sessoes||[]).forEach(d=>addSessao(d));
+    (v.regs||[]).forEach(d=>addReg(d));
+  } else {
+    Object.entries(PADRAO).forEach(([k,val])=>{ const el=document.getElementById(k); if(!el)return; if(el.type==="checkbox"||el.type==="radio") el.checked=!!val; else el.value=val; });
+  }
+  calcIdade(); termo();
+  if(document.querySelectorAll("#sessoes tr").length<=1){ addSessao(); addSessao(); addSessao(); }
+  if(document.querySelectorAll("#regs tr").length<=1){ addReg(); addReg(); }
+})();
+document.body.addEventListener("input",salvar);
+document.body.addEventListener("change",function(e){if(e.target.type==="checkbox"||e.target.type==="radio"||e.target.type==="date")salvar();});
+document.getElementById("addS").addEventListener("click",function(){addSessao();salvar();});
+document.getElementById("addR").addEventListener("click",function(){addReg();salvar();});
+</script>
+</body>
+</html>

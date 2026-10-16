@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orçamento e Protocolo — Espaço Thaís Helena | Flacidez e Estrias</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',Roboto,sans-serif;background:#FDF3F7;color:#3d2b33;margin:0;padding:16px}
+.wrap{max-width:780px;margin:0 auto;background:#fff;border:1.5px solid #E85D8A;border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(232,93,138,.12)}
+.head{border:1.5px solid #E85D8A;border-radius:12px;padding:16px 20px;text-align:center;margin-bottom:12px;background:#FCE4EC}
+.brand{font-size:13px;letter-spacing:2px;color:#C24A78;font-weight:600}
+h1{font-size:22px;margin:4px 0 2px;font-weight:600;color:#B03A66}
+.sub{font-size:13px;color:#8a6b78}
+.sec{background:#E85D8A;color:#fff;font-size:14px;font-weight:600;border-radius:8px;padding:7px 12px;margin:16px 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px}
+.full{grid-column:1/-1}
+label{display:block;font-size:12px;color:#a06a80;margin-top:6px}
+.in{width:100%;border:none;border-bottom:1px solid #F1A8C4;padding:4px 2px;font-size:14px;background:transparent;outline:none}
+.in:focus{border-bottom:2px solid #E85D8A}
+.box{border:1px solid #F1A8C4;border-radius:10px;padding:10px 14px;margin-top:6px;font-size:13.5px;line-height:1.55;background:#FDF3F7}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px}
+th{background:#F8BBD0;color:#7a2e4e;padding:6px;border:1px solid #F1A8C4;text-align:left;font-weight:600}
+td{border:1px solid #F1A8C4;padding:4px}
+td .in{border:none;font-size:13.5px}
+.btns{display:flex;gap:8px;justify-content:center;margin:18px 0 8px;flex-wrap:wrap}
+.btn{border:1px solid #E85D8A;background:#fff;color:#B03A66;border-radius:10px;padding:8px 18px;font-size:14px;cursor:pointer}
+.btn:hover{background:#FCE4EC}
+.sig{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+.sig div{border-top:1px solid #E85D8A;padding-top:5px;font-size:12px;color:#a06a80;text-align:center}
+.note{font-size:12px;color:#a06a80;font-style:italic;margin-top:10px;text-align:center}
+.total td{font-weight:600;background:#FCE4EC}
+@media(max-width:600px){.grid,.sig{grid-template-columns:1fr}}
+@media print{body{background:#fff}.wrap{border:none;box-shadow:none}.btns{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="head">
+  <div class="brand">ESPAÇO THAÍS HELENA — TRATAMENTO DE ESTRIA E CICATRIZ</div>
+  <h1>Protocolo Flacidez — Ficha e Orçamento</h1>
+  <div class="sub">Dermalift · Estímulo de colágeno e firmeza da pele</div>
+</div>
+
+<div class="grid">
+  <div><label>Cliente</label><input class="in" id="c0"></div>
+  <div><label>Data</label><input class="in" type="date" id="c1"></div>
+  <div class="full"><label>Objetivo do tratamento</label><input class="in" id="c2"></div>
+</div>
+
+<div class="sec">Produtos que serão utilizados</div>
+<div class="grid">
+  <div><label>Produto principal</label><input class="in" id="c3"></div>
+  <div><label>Finalizador</label><input class="in" id="c4"></div>
+  <div class="full"><label>Instrumento / ponteira</label><input class="in" id="c5"></div>
+  <div><label>Áreas a tratar</label><input class="in" id="c6"></div>
+  <div><label>Validade do orçamento</label><input class="in" id="c7" placeholder="ex.: 15 dias"></div>
+</div>
+
+<div class="sec">Sobre o tratamento</div>
+<div class="box">O Dermalift é um protocolo que estimula a pele de forma controlada, favorecendo a produção de colágeno e contribuindo para uma aparência mais firme e uniforme. O trabalho é delicado, sem intenção de sangramento, e respeita a resposta individual de cada pele. Os resultados são progressivos e variam conforme as características da pele. <b>Este tratamento não substitui uma cirurgia de mastopexia.</b><br><br>
+<b>Intervalo entre sessões:</b> 20 dias · <b>Manutenção:</b> a cada 6 meses.</div>
+
+<div class="sec">Orçamento</div>
+<table id="orc">
+<tr><th>Item</th><th style="width:70px">Qtd.</th><th style="width:110px">Valor unitário (R$)</th><th style="width:110px">Total (R$)</th></tr>
+<tr><td><input class="in" value="Sessão Dermalift — flacidez do colo e estrias"></td><td><input class="in q"></td><td><input class="in v"></td><td><input class="in t" readonly style="background:#FDF3F7"></td></tr>
+<tr><td><input class="in" value="Sessão de manutenção (a cada 6 meses)"></td><td><input class="in q"></td><td><input class="in v"></td><td><input class="in t" readonly style="background:#FDF3F7"></td></tr>
+<tr><td><input class="in" placeholder="Outro item"></td><td><input class="in q"></td><td><input class="in v"></td><td><input class="in t" readonly style="background:#FDF3F7"></td></tr>
+<tr class="total"><td colspan="3">Total do orçamento</td><td><input class="in tg" readonly style="background:transparent;font-weight:600"></td></tr>
+</table>
+<div class="chk-note note" style="text-align:left">Formas de pagamento: <input class="in" id="c8" style="display:inline;width:70%;border-bottom:1px solid #F1A8C4" placeholder="ex.: dinheiro, pix, cartão de crédito em até X vezes"></div>
+
+<div class="sec">Registro de sessões</div>
+<table id="sessoes">
+<tr><th style="width:130px">Data</th><th>Sessão</th><th style="width:110px">Valor pago (R$)</th><th>Observações</th><th style="width:40px"></th></tr>
+</table>
+<button class="btn" style="margin-top:8px" id="addS">+ Adicionar sessão</button>
+
+<div class="sec">Orientações pós-procedimento</div>
+<div class="box"><ul style="margin:4px 0;padding-left:18px">
+<li>Não manipular a região; evitar atrito nas primeiras horas/dias.</li>
+<li>Evitar calor excessivo e exposição solar.</li>
+<li>Não usar ácidos ou produtos irritantes sem orientação.</li>
+<li>Utilizar somente os produtos orientados pela profissional.</li>
+<li>Em caso de dor intensa, edema importante ou sinais de infecção, entrar em contato com o espaço.</li>
+</ul></div>
+
+<div class="sig">
+  <div>Assinatura do profissional</div>
+  <div>Assinatura da cliente</div>
+</div>
+
+<div class="btns">
+  <button class="btn" onclick="salvar();persistAgora()">Salvar</button>
+  <button class="btn" onclick="window.print()">Imprimir / PDF</button>
+  <button class="btn" onclick="limpar()">Limpar dados</button>
+</div>
+<div class="note">Os dados ficam salvos automaticamente no sistema a cada alteração.</div>
+</div>
+
+<script>
+const PADRAO = Object.assign({
+  c0:"", c1:"", c2:"Flacidez no colo e presença de estrias",
+  c3:"Lakma Neuroplasma Nutri-Complex", c4:"Bepantriz – Dexpantenol 50 mg/g (Cimed)",
+  c5:"", c6:"", c7:"", c8:""
+}, FICHA.prefill);
+const KEY = "ficha_orcamento_thais_v1";
+function addSessao(d){
+  const t=document.getElementById("sessoes");
+  const r=t.insertRow();
+  r.innerHTML='<td><input class="in" type="date"></td><td><input class="in"></td><td><input class="in"></td><td><input class="in"></td><td><button class="btn del" style="padding:2px 10px">✕</button></td>';
+  r.querySelector('.del').addEventListener('click',function(){r.remove();salvar();});
+  if(d) r.querySelectorAll("input").forEach((i,n)=>i.value=d[n]||"");
+}
+function calc(){
+  let tot=0;
+  document.querySelectorAll("#orc tr").forEach((tr,n)=>{
+    if(n===0||tr.classList.contains("total"))return;
+    const q=parseFloat(tr.querySelector(".q").value.replace(",","."))||0;
+    const v=parseFloat(tr.querySelector(".v").value.replace(",","."))||0;
+    const t=q*v; tot+=t;
+    tr.querySelector(".t").value=t? t.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
+  });
+  document.querySelector(".tg").value=tot? tot.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
+}
+function coletar(){
+  const v={campos:{},orc:[],sessoes:[]};
+  document.querySelectorAll(".in[id]").forEach(i=>v.campos[i.id]=i.value);
+  document.querySelectorAll("#orc tr").forEach((tr,n)=>{ if(n>0&&!tr.classList.contains("total")) v.orc.push([...tr.querySelectorAll("input")].map(i=>i.value)); });
+  document.querySelectorAll("#sessoes tr").forEach((tr,n)=>{ if(n>0) v.sessoes.push([...tr.querySelectorAll("input")].map(i=>i.value)); });
+  return v;
+}
+function salvar(){ calc(); persist(coletar()); }
+function limpar(){ if(confirm("Apagar todos os dados preenchidos?")){ limparFicha(); } }
+(function(){
+  const v=FICHA.dados;
+  if(v){
+    Object.entries(v.campos||{}).forEach(([k,val])=>{ const el=document.getElementById(k); if(el) el.value=val; });
+    document.querySelectorAll("#orc tr").forEach((tr,n)=>{ if(n>0&&v.orc&&v.orc[n-1]) tr.querySelectorAll("input").forEach((i,x)=>i.value=v.orc[n-1][x]||i.value); });
+    (v.sessoes||[]).forEach(d=>addSessao(d));
+  } else {
+    Object.entries(PADRAO).forEach(([k,val])=>{ const el=document.getElementById(k); if(!el)return; if(el.type==="checkbox"||el.type==="radio") el.checked=!!val; else el.value=val; });
+  }
+  if(document.querySelectorAll("#sessoes tr").length<=1){ addSessao(); addSessao(); addSessao(); }
+  calc();
+})();
+document.body.addEventListener("input",salvar);
+document.getElementById("addS").addEventListener("click",function(){addSessao();salvar();});
+</script>
+</body>
+</html>
