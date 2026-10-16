@@ -23,7 +23,7 @@ export default function AppLayout({ children }: LayoutProps<"/">) {
         <Marca />
         <Nav tipo="lateral" />
         <div className="side-fim">
-          <div className={`banco${infoBanco.permanente ? "" : " temp"}`} title={`Banco de dados: ${infoBanco.tipo} — ${infoBanco.local}`}>
+          <div className={`banco${infoBanco.permanente ? "" : " temp"}`} title={`Banco de dados: ${infoBanco.tipo} — ${infoBanco.local}${infoBanco.variavel ? ` (variável ${infoBanco.variavel})` : ""}`}>
             <span className="ponto" /> Banco: {infoBanco.tipo}
             <small>{infoBanco.local}</small>
           </div>
@@ -40,7 +40,19 @@ export default function AppLayout({ children }: LayoutProps<"/">) {
         </form>
       </header>
 
-      <main className="main">{children}</main>
+      <main className="main">
+        {!infoBanco.permanente && (
+          <div className="faixa erro alerta-banco" role="alert">
+            <b>Atenção: os dados NÃO estão sendo guardados de forma permanente.</b>
+            <span>
+              O banco em uso ({infoBanco.local}) é criado a cada atualização do sistema, então tudo o que for
+              cadastrado some no próximo deploy. Configure um banco fixo nas variáveis <code>BANCO_URL</code> e{" "}
+              <code>BANCO_TOKEN</code> do Vercel (veja o README) antes de continuar usando.
+            </span>
+          </div>
+        )}
+        {children}
+      </main>
       <Nav tipo="inferior" />
     </div>
   );

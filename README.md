@@ -25,16 +25,41 @@ Localmente o banco é o arquivo `data/local.db` (SQLite), criado automaticamente
 
 ## Publicar no Vercel
 
-O Vercel não guarda arquivos em disco, então em produção o banco é um **Turso** (mesmo formato SQLite, plano grátis):
+O Vercel não guarda arquivos em disco, então em produção o banco é um **Turso** (mesmo formato SQLite, plano grátis).
 
-1. Suba este projeto para o GitHub e importe no Vercel.
-2. No projeto do Vercel → **Storage / Marketplace → Turso** → criar banco e conectar ao projeto.
-   Isso cria sozinho as variáveis `TURSO_DATABASE_URL` e `TURSO_AUTH_TOKEN`.
-   (Ou crie em turso.tech e cole as duas variáveis manualmente.)
-3. Em **Settings → Environment Variables** adicione:
-   - `ADMIN_USER` — usuário de login
-   - `ADMIN_PASSWORD` — senha de login
-   - `AUTH_SECRET` — texto aleatório longo (ex.: resultado de `openssl rand -hex 32`)
-4. Deploy. As tabelas são criadas automaticamente no primeiro acesso.
+> ⚠️ **Use um banco FIXO.** A integração Turso do Vercel pode criar *um banco novo a cada deploy*
+> (nome começando com `dpl-…`). Nesse caso cada atualização do sistema começa com o banco vazio.
+> O sistema mostra um aviso vermelho quando detecta isso. A solução é criar um banco próprio e
+> informá-lo em `BANCO_URL` / `BANCO_TOKEN`, que têm prioridade sobre as variáveis da integração.
+
+1. Crie o banco fixo no Turso (https://app.turso.tech → **Create Database**, ex.: `thaishelena`).
+   - Copie a **URL** (`libsql://thaishelena-<usuario>.<regiao>.turso.io`).
+   - Gere um **token** (botão *Create Token* do banco, sem expiração, permissão de leitura e escrita).
+   Pelo terminal, o mesmo com a CLI do Turso:
+   ```bash
+   turso db create thaishelena
+   turso db show thaishelena --url
+   turso db tokens create thaishelena
+   ```
+2. No Vercel → **Settings → Environment Variables** (marque Production e Preview):
+   - `BANCO_URL` — a URL do passo 1
+   - `BANCO_TOKEN` — o token do passo 1
+   - `ADMIN_USER`, `ADMIN_PASSWORD`, `AUTH_SECRET` (login; `AUTH_SECRET` = texto aleatório longo)
+3. Faça **Redeploy**. No menu lateral, "Banco: Turso" deve mostrar o endereço do seu banco
+   (sem `dpl-` no começo) com a bolinha verde.
+
+As tabelas são criadas automaticamente no primeiro acesso. A partir daí, atualizar o sistema não
+afeta os dados.
+
+### Recuperar dados de um banco antigo
+
+Se dados ficaram num banco `dpl-…` de um deploy anterior, copie-os para o banco fixo
+(nada é apagado; registros que já existem no destino são mantidos):
+
+```bash
+ORIGEM_URL=libsql://dpl-....turso.io ORIGEM_TOKEN=... BANCO_URL=libsql://thaishelena-....turso.io BANCO_TOKEN=... node scripts/copiar-banco.mjs
+```
+
+Os bancos de cada deploy aparecem na lista de bancos do painel do Turso (ou `turso db list`).
 
 Para trocar a senha, altere `ADMIN_PASSWORD` no Vercel e faça redeploy. Trocar `AUTH_SECRET` desconecta todos os aparelhos.

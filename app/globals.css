@@ -332,3 +332,8 @@ details.card[open] > summary .gira { transform: rotate(90deg); }
 @media (min-width: 861px) { .so-mob { display: none !important; } }
 
 .form-aviso { flex-basis: 100%; order: -1; margin: 0; }
+.alerta-banco { display: grid; gap: 4px; font-weight: 500; line-height: 1.5; border: 1px solid #f0c4c4; }
+.alerta-banco b { font-weight: 750; }
+.alerta-banco code { background: #fff; border-radius: 5px; padding: 1px 5px; font-size: 12.5px; }
+.banco.temp { color: var(--erro); }
+.banco.temp .ponto { background: var(--erro); }
