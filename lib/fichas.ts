@@ -1,3 +1,5 @@
+import { mascaraTelefone } from "./mascaras";
+
 // Tipos de ficha disponíveis. `arquivo` é o modelo HTML em /templates.
 export const TIPOS = {
   anamnese_estrias: {
@@ -66,7 +68,7 @@ export function prefill(tipo: TipoFicha, c: Cliente): Record<string, string | bo
         c0: n,
         cpf: c.cpf ?? "",
         c1: c.nascimento ?? "",
-        c2: c.telefone ?? "",
+        c2: mascaraTelefone(c.telefone ?? ""),
         c3: c.endereco ?? "",
         c4: c.rede_social ?? "",
         s1: c.sexo === "F",
