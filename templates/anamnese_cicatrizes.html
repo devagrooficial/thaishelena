@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anamnese — Cicatrizes | Espaço Thaís Helena</title>
+</head>
+<body>
+<div class="wrap">
+
+<div class="head">
+  <div class="brand">ESPAÇO THAÍS HELENA</div>
+  <h1>Ficha de anamnese, avaliação técnica &amp; protocolo</h1>
+  <div class="sub">(Tratamento de Cicatrizes – Regeneração e Uniformização da Pele)</div>
+</div>
+
+<!--#parte identificacao-->
+
+<div class="sec">2. Hábitos de vida e histórico de saúde</div>
+<div class="campo"><label>Causa da cicatriz</label><div class="chk">
+  <label><input type="checkbox" id="cz_causa_1"> Cirúrgica</label>
+  <label><input type="checkbox" id="cz_causa_2"> Trauma / acidente</label>
+  <label><input type="checkbox" id="cz_causa_3"> Acne</label>
+  <label><input type="checkbox" id="cz_causa_4"> Queimadura</label>
+  <label><input type="checkbox" id="cz_causa_5"> Outro: <input class="in medio" id="cz_causa_outro"></label>
+</div></div>
+<label for="cz_tempo">Tempo que possui esta cicatriz</label><input class="in" id="cz_tempo">
+<div class="perg"><span class="t">Tendência a queloide ou cicatriz hipertrófica?</span><div class="chk"><label><input type="checkbox" id="h_queloide_s"> Sim</label><label><input type="checkbox" id="h_queloide_n"> Não</label></div></div>
+<div class="perg"><span class="t">A cicatriz apresenta dor, coceira ou repuxamento?</span><div class="chk"><label><input type="checkbox" id="h_dor_s"> Sim</label><label><input type="checkbox" id="h_dor_n"> Não</label></div></div>
+<!--#parte habitos-->
+<div class="perg"><span class="t">Já realizou tratamento anterior para esta cicatriz?</span><div class="chk"><label><input type="checkbox" id="h_anterior_s"> Sim</label><label><input type="checkbox" id="h_anterior_n"> Não</label></div></div>
+<label for="h_anterior_qual">Qual e há quanto tempo?</label><input class="in" id="h_anterior_qual">
+
+<div class="sub-sec">Checklist de contraindicações / condições especiais</div>
+<div class="doc">
+  <label><input type="checkbox" id="ci_1"> Gestante ou lactante</label>
+  <label><input type="checkbox" id="ci_2"> Uso de Isotretinoína / Roacutan (últimos 6 a 12 meses)</label>
+  <label><input type="checkbox" id="ci_3"> Neoplasia / câncer ativo ou em tratamento</label>
+  <label><input type="checkbox" id="ci_4"> Lesão ativa, infecção, herpes ou pontos abertos no local a ser tratado</label>
+  <label><input type="checkbox" id="ci_5"> Diabetes descompensada ou alteração grave de cicatrização</label>
+</div>
+
+<div class="sec">3. Avaliação técnica e alinhamento de expectativas</div>
+<label for="objetivo">Principal objetivo / queixa da cliente</label><input class="in" id="objetivo">
+<div class="perg"><span class="t">Fototipo da pele</span><div class="chk"><label><input type="checkbox" id="ft_1"> Baixo (I - II)</label><label><input type="checkbox" id="ft_2"> Médio baixo (III)</label><label><input type="checkbox" id="ft_3"> Médio alto (IV)</label><label><input type="checkbox" id="ft_4"> Alto (V - VI)</label></div></div>
+<div class="sub-sec">Classificação técnica da cicatriz</div>
+<div class="campo"><label>Tipo de cicatriz</label><div class="chk">
+  <label><input type="checkbox" id="cz_tipo_1"> Atrófica (funda)</label>
+  <label><input type="checkbox" id="cz_tipo_2"> Normotrófica</label>
+  <label><input type="checkbox" id="cz_tipo_3"> Hipertrófica (elevada)</label>
+  <label><input type="checkbox" id="cz_tipo_4"> Hiperpigmentada (escura)</label>
+</div></div>
+<div class="campo"><label>Textura</label><div class="chk">
+  <label><input type="checkbox" id="cz_text_1"> Média</label>
+  <label><input type="checkbox" id="cz_text_2"> Rígida / aderida</label>
+  <label><input type="checkbox" id="cz_text_3"> Fina / esbranquiçada</label>
+</div></div>
+<div class="campo"><label>Aderência</label><div class="chk">
+  <label><input type="checkbox" id="cz_ader_1"> Sem aderência</label>
+  <label><input type="checkbox" id="cz_ader_2"> Aderida ao tecido profundo</label>
+</div></div>
+<div class="campo"><label>Regiões a tratar</label><div class="chk">
+  <label><input type="checkbox" id="rg_face"> Face / pescoço</label>
+  <label><input type="checkbox" id="rg_abdomen"> Abdômen</label>
+  <label><input type="checkbox" id="rg_flancos"> Flancos</label>
+  <label><input type="checkbox" id="rg_seios"> Seios / colo</label>
+  <label><input type="checkbox" id="rg_gluteos"> Glúteos / coxas</label>
+  <label><input type="checkbox" id="rg_bracos"> Braços / costas</label>
+</div></div>
+<label for="rg_outro">Outro</label><input class="in" id="rg_outro">
+
+<div class="sec">4. Protocolo de tratamento definido (cicatrizes)</div>
+<p class="fixo"><b>Procedimento:</b> Protocolo Regenerativo para Cicatrizes</p>
+<p class="fixo"><b>Plano de tratamento:</b> <input class="in curto" id="plano_sessoes" inputmode="numeric"> sessões + Sessão de Avaliação/Manutenção a cada <input class="in curto" id="manut_meses" inputmode="numeric"> meses.</p>
+<div class="grid">
+  <div class="full"><label for="ativos">Ativos / séruns selecionados</label><input class="in" id="ativos"></div>
+  <div class="full"><label for="instrumento">Instrumento / agulhas / ponteiras</label><input class="in" id="instrumento"></div>
+</div>
+<div class="perg"><span class="t">Fotobiomodulação com infravermelho – LEDterapia</span><div class="chk"><label><input type="checkbox" id="led_s"> Sim</label><label><input type="checkbox" id="led_n"> Não</label></div></div>
+<div class="campo"><label>Orientações home care prescritas</label>
+<div class="doc">
+  <label><input type="checkbox" id="hc_1"> <span><b>Todos os fototipos:</b> Pomada regeneradora/cicatrizante + Protetor Solar FPS 60+.</span></label>
+  <label><input type="checkbox" id="hc_2"> <span><b>Cicatrizes hiperpigmentadas (fototipos médios/altos):</b> Pomada regeneradora + Protetor Solar FPS 60 + Ácido Mandélico 10%.</span></label>
+</div></div>
+<label for="hc_outros">Outros</label><input class="in" id="hc_outros">
+
+<!--#parte sessoes-->
+
+<!--#parte pagamentos-->
+
+<div class="sec">7. Termo de consentimento livre e esclarecido e uso de imagem</div>
+<div class="termo">
+<p>Eu, <b data-espelho="nome"></b>, declaro estar ciente e de acordo com as seguintes condições para o tratamento regenerativo de cicatrizes:</p>
+<p class="item"><b>1. Veracidade das Informações:</b> Confirmo que todas as informações prestadas nesta ficha são verdadeiras e completas, ciente de que omitir dados pode impactar a segurança e a eficácia do tratamento.</p>
+<p class="item"><b>2. Expectativas, Resultados e Limitações:</b> Declaro ter ciência de que o tratamento busca a melhora da textura, relevo, flexibilidade e coloração da cicatriz, mas que não garante o apagamento ou eliminação total da marca. O tecido cicatricial é uma reparação permanente do organismo e os resultados variam de acordo com a resposta biológica individual.</p>
+<p class="item"><b>3. Comprometimento Pessoal (Home Care):</b> Reconheço que o sucesso do procedimento depende em até 50% dos meus cuidados pós-sessão e comprometo-me a seguir todas as orientações, uso de produtos recomendados e proteção solar rigorosa.</p>
+<p class="item"><b>4. Interrupção do Tratamento:</b> Em caso de desistência por vontade própria, compreendo que os valores de pacotes/combos não serão reembolsados.</p>
+<p class="item"><b>5. Autorização de Uso de Imagem: AUTORIZO</b> o uso de registros fotográficos (antes e depois) para fins de acompanhamento do prontuário interno e divulgação em redes sociais, materiais promocionais ou institucionais da profissional, resguardada a minha dignidade.</p>
+<p class="item"><b>6. Limitação de Responsabilidade:</b> A profissional isenta-se de responsabilidades caso ocorram reações adversas decorrentes da omissão de informações na anamnese ou do descumprimento das orientações pós-procedimento.</p>
+</div>
+
+<!--#parte assinaturas-->
+<!--#parte botoes-->
+</div>
+
+<script type="application/json" id="padrao">
+{
+  "tabelas": {
+    "sessoes": [["1"], ["2"], ["3"]],
+    "pagamentos": [["", "Sinal / Entrada"], ["", "Sessão 01"], ["", "Sessão 02"]]
+  }
+}
+</script>
+</body>
+</html>

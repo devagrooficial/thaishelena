@@ -12,12 +12,6 @@ import { ClienteForm } from "@/components/ClienteForm";
 import { Confirmar } from "@/components/Confirmar";
 import { Icone } from "@/components/Icone";
 
-const DESC: Record<TipoFicha, string> = {
-  anamnese_estrias: "Saúde, avaliação, regiões e termo",
-  orcamento_estrias: "MicroEstrias · valores e pagamentos",
-  orcamento_flacidez: "Dermalift · valores e sessões",
-  capa: "Entrega final de documentos",
-};
 
 export async function generateMetadata({ params }: PageProps<"/clientes/[id]">) {
   const { id } = await params;
@@ -82,12 +76,12 @@ export default async function ClientePage({ params, searchParams }: PageProps<"/
           <div className="card-cab"><h2>Nova ficha para {primeiroNome}</h2></div>
           <div className="card-corpo">
             <div className="novas">
-              {(Object.keys(TIPOS) as TipoFicha[]).map((t) => (
+              {(Object.keys(TIPOS) as TipoFicha[]).filter((t) => !TIPOS[t].legado).map((t) => (
                 <form key={t} action={criarFicha.bind(null, cliente.id, t)}>
                   <button>
                     <span className="ic"><Icone n="ficha" s={18} /></span>
                     <b>{TIPOS[t].curto}</b>
-                    <small>{DESC[t]}</small>
+                    <small>{TIPOS[t].desc}</small>
                   </button>
                 </form>
               ))}
@@ -102,7 +96,7 @@ export default async function ClientePage({ params, searchParams }: PageProps<"/
           </div>
           <div className="linhas" style={{ marginTop: 10 }}>
             {fichas.map((f) => {
-              const n = sessoesDa(f).length;
+              const n = sessoesDa(f).filter((s) => s.tipo !== "pagamento").length;
               return (
                 <div key={f.id} className="linha ficha">
                   <a href={`/f/${f.id}`} className="avatar ic-ficha" style={{ borderRadius: 12 }} aria-hidden tabIndex={-1}>
@@ -167,7 +161,7 @@ export default async function ClientePage({ params, searchParams }: PageProps<"/
                 <div><span>Pago</span><b style={{ color: "var(--ok)" }}>{brl(pago)}</b></div>
                 <div><span>Falta receber</span><b style={{ color: pendente ? "var(--erro)" : undefined }}>{brl(pendente)}</b></div>
               </div>
-              <p className="muted" style={{ margin: "10px 0 0" }}>Falta receber = total orçado − total pago, somando as fichas de orçamento.</p>
+              <p className="muted" style={{ margin: "10px 0 0" }}>Falta receber = valor do protocolo − total pago, somando as fichas de anamnese (e os orçamentos do modelo antigo).</p>
             </div>
           </div>
         </div>

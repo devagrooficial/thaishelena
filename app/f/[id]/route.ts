@@ -10,6 +10,15 @@ const MASCARAS: Partial<Record<TipoFicha, Record<string, "tel">>> = {
   anamnese_estrias: { c2: "tel" },
 };
 
+const lerModelo = (f: string) => readFile(path.join(process.cwd(), "templates", f), "utf8");
+
+// <!--#parte nome--> no modelo é trocado por templates/_partes/nome.html
+async function incluirPartes(html: string) {
+  const nomes = [...new Set([...html.matchAll(/<!--#parte ([\w-]+)-->/g)].map((m) => m[1]))];
+  const partes = new Map(await Promise.all(nomes.map(async (n) => [n, await lerModelo(`_partes/${n}.html`)] as const)));
+  return html.replace(/<!--#parte ([\w-]+)-->/g, (_, n: string) => partes.get(n)!);
+}
+
 // Abre uma ficha: devolve o modelo HTML original com os dados salvos injetados
 // e uma barra superior (voltar / status de salvamento). A barra some na impressão.
 export async function GET(req: Request, { params }: RouteContext<"/f/[id]">) {
@@ -26,15 +35,22 @@ export async function GET(req: Request, { params }: RouteContext<"/f/[id]">) {
 
   const tipo = TIPOS[ficha.tipo];
 
-  const [html, temaCss, temaJs] = await Promise.all(
-    [tipo.arquivo, "_tema.css", "_tema.js"].map((f) => readFile(path.join(process.cwd(), "templates", f), "utf8")),
-  );
+  // fichas do padrão atual: base comum (estilo de impressão + comportamento) antes do tema da tela
+  const base = !!tipo.modelo;
+  const [modelo, temaCss, temaJs, fichaCss, fichaJs] = await Promise.all([
+    lerModelo(tipo.arquivo),
+    lerModelo("_tema.css"),
+    lerModelo("_tema.js"),
+    base ? lerModelo("_ficha.css") : "",
+    base ? lerModelo("_ficha.js") : "",
+  ]);
+  const html = base ? await incluirPartes(modelo) : modelo;
 
   const estado = {
     id: ficha.id,
     dados: ficha.dados ? JSON.parse(ficha.dados) : null,
     prefill: prefill(ficha.tipo, cliente),
-    mascaras: MASCARAS[ficha.tipo] ?? {},
+    mascaras: MASCARAS[ficha.tipo] ?? (tipo.modelo === "anamnese" ? { telefone: "tel" } : {}),
   };
   const json = JSON.stringify(estado).replace(/</g, "\\u003c");
   const esc = (s: string) =>
@@ -48,6 +64,7 @@ export async function GET(req: Request, { params }: RouteContext<"/f/[id]">) {
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <style>
+${fichaCss}
 ${temaCss}
 </style>
 <script>
@@ -96,7 +113,7 @@ window.FICHA = ${json};
     .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${esc(tituloPdf)}</title>`)
     .replace("</head>", () => cabeca)
     .replace("<body>", () => barra)
-    .replace(/<\/body>(?![\s\S]*<\/body>)/, () => `<script>\n${temaJs}\n</script>\n</body>`);
+    .replace(/<\/body>(?![\s\S]*<\/body>)/, () => `<script>\n${fichaJs}\n</script>\n<script>\n${temaJs}\n</script>\n</body>`);
 
   return new Response(out, {
     headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" },

@@ -1,0 +1,21 @@
+<div class="sec">6. Registro e controle de pagamentos</div>
+<div class="grid">
+  <div><label for="valor_total">Valor total do protocolo (R$)</label><input class="in v" id="valor_total" placeholder="0,00"></div>
+  <div><label>Forma de pagamento</label>
+    <div class="chk">
+      <label><input type="checkbox" id="fp_pix"> Pix</label>
+      <label><input type="checkbox" id="fp_debito"> Débito</label>
+      <label><input type="checkbox" id="fp_credito"> Crédito</label>
+      <label><input type="checkbox" id="fp_dinheiro"> Dinheiro</label>
+    </div>
+  </div>
+</div>
+<table class="dyn" id="pagamentos" style="margin-top:14px">
+<tr><th style="width:150px">Data</th><th>Ref. sessão / parcelas</th><th style="width:130px">Valor (R$)</th><th style="width:150px">Forma de pagamento</th><th style="width:130px">Status</th><th class="so-tela" style="width:44px"></th></tr>
+</table>
+<template id="linha-pagamentos"><td><input class="in" type="date"></td><td><input class="in"></td><td><input class="in val" placeholder="R$"></td><td><select class="in"><option value="">—</option><option>Pix</option><option>Débito</option><option>Crédito</option><option>Dinheiro</option></select></td><td><select class="in st"><option value="">—</option><option>Pago</option><option>Pendente</option></select></td><td class="so-tela"><button type="button" class="btn del" title="Remover linha">✕</button></td></template>
+<button type="button" class="btn add" data-tabela="pagamentos">+ Adicionar pagamento</button>
+<div class="resumo">
+  <div><span>Total pago</span><input class="in tp" id="total_pago" readonly tabindex="-1"></div>
+  <div><span>Saldo pendente</span><input class="in tpend" id="saldo" readonly tabindex="-1"></div>
+</div>

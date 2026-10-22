@@ -1,0 +1,16 @@
+<div class="sec">3. Investimento e condições</div>
+<table class="dyn" id="orc">
+<tr><th>Item / Serviço</th><th style="width:96px">Qtd. (sessões)</th><th style="width:140px">Valor unitário (R$)</th><th style="width:150px">Valor total</th><th class="so-tela" style="width:44px"></th></tr>
+</table>
+<template id="linha-orc"><td><input class="in"></td><td><input class="in q num"></td><td><input class="in v" placeholder="R$"></td><td><input class="in t" readonly tabindex="-1"></td><td class="so-tela"><button type="button" class="btn del" title="Remover item">✕</button></td></template>
+<button type="button" class="btn add" data-tabela="orc">+ Adicionar item</button>
+<div class="resumo">
+  <div class="destaque"><span>Valor total</span><input class="in" id="orc_total" readonly tabindex="-1"></div>
+  <div><span>À vista (Pix / Débito / Dinheiro)</span><input class="in" id="orc_avista" readonly tabindex="-1"></div>
+  <div><span>Cartão de crédito</span><input class="in" id="orc_parcela" readonly tabindex="-1"></div>
+</div>
+<p class="fixo" style="margin-top:14px"><b>Formas de pagamento:</b> Pix, Cartão de Crédito, Débito ou Dinheiro.</p>
+<div class="fixo"><b>Condições especiais:</b>
+  <div>– <b>Débito / Pix / Dinheiro:</b> <input class="in curto" id="desconto" inputmode="decimal">% de desconto no fechamento do protocolo completo.</div>
+  <div>– <b>Cartão de crédito:</b> em até <input class="in curto" id="parcelas" inputmode="numeric">x sem juros.</div>
+</div>

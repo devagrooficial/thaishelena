@@ -41,7 +41,7 @@ export default async function Dashboard() {
   for (const f of fichas) {
     for (const s of sessoesDa(f)) {
       if (s.data.startsWith(mes)) {
-        clientesAtivos.add(f.cliente_id);
+        if (s.tipo !== "pagamento") clientesAtivos.add(f.cliente_id);
         if (s.status === "Pago") recebidoMes += s.valor;
       }
     }
