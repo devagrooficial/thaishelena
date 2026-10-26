@@ -39,6 +39,14 @@ textarea.in { resize: vertical; min-height: 40px; }
 input[type=checkbox], input[type=radio] { accent-color: #c45c7e; width: 13px; height: 13px; margin: 0; }
 .doc > label { display: flex; align-items: center; gap: 6px; font-weight: 400; margin: 2px 0; }
 
+/* blocos de avaliação: colunas com caixinhas, no mesmo padrão da ficha de estrias */
+.boxes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; break-inside: avoid; }
+.bx { border: 1px solid #e8a2bd; border-radius: 8px; padding: 6px 8px; }
+.bx.largo { grid-column: span 2; }
+.bx h4 { margin: 0 0 4px; font-size: 12px; color: #c45c7e; text-transform: uppercase; }
+.bx label { display: flex; align-items: center; gap: 6px; font-weight: 400; margin: 3px 0; }
+.bx label > input { flex-shrink: 0; }
+
 /* linhas fixas do protocolo e textos */
 .fixo { margin: 4px 0; line-height: 1.5; }
 .fixo b { color: #3a3a3a; }
