@@ -10,6 +10,14 @@
   var padrao = {};
   try { padrao = JSON.parse(($("padrao") || {}).textContent || "{}"); } catch (e) {}
   var tabelasPadrao = padrao.tabelas || {};
+  // orçamento com parcelamento COM juros ("opcoes": {"cartaoComJuros": true} no modelo):
+  // o texto muda e o valor no cartão é digitado (não dá para calcular a parcela com juros)
+  var comJuros = !!(padrao.opcoes && padrao.opcoes.cartaoComJuros);
+  if (comJuros) {
+    todos("[data-juros]").forEach(function (el) { el.textContent = "com juros"; });
+    var cartao = $("orc_parcela");
+    if (cartao) { cartao.readOnly = false; cartao.removeAttribute("tabindex"); cartao.placeholder = "R$"; }
+  }
 
   function numBR(s) {
     s = String(s || "").replace(/[^\d,.-]/g, "");
@@ -70,7 +78,7 @@
     var desc = numBR(valor("desconto")) || 0;
     definir("orc_avista", tot ? brl(tot * (1 - desc / 100)) : "");
     var p = Math.round(numBR(valor("parcelas")));
-    definir("orc_parcela", tot && p > 0 ? p + "x de " + brl(tot / p) : "");
+    if (!comJuros) definir("orc_parcela", tot && p > 0 ? p + "x de " + brl(tot / p) : "");
   }
   // anamnese: total pago e saldo = valor do protocolo − pago (sem valor, soma dos pendentes)
   function calcPag() {
