@@ -42,6 +42,13 @@ const DEFS = {
     arquivo: "anamnese_cicatrizes.html",
     modelo: "anamnese",
   },
+  anamnese_rejuvenescimento: {
+    nome: "Anamnese e Protocolo — Rejuvenescimento Facial",
+    curto: "Anamnese Rejuvenescimento",
+    desc: "Saúde, avaliação, protocolo, sessões, pagamentos e termo",
+    arquivo: "anamnese_rejuvenescimento.html",
+    modelo: "anamnese",
+  },
   orcamento_microestrias: {
     nome: "Orçamento — Estrias (MicroEstrias)",
     curto: "Orçamento Estrias",
@@ -68,6 +75,13 @@ const DEFS = {
     curto: "Orçamento Cicatrizes",
     desc: "Plano, investimento, condições e orientações",
     arquivo: "orcamento_cicatrizes.html",
+    modelo: "orcamento",
+  },
+  orcamento_rejuvenescimento: {
+    nome: "Orçamento — Rejuvenescimento Facial",
+    curto: "Orçamento Rejuvenescimento",
+    desc: "Plano, investimento, condições e orientações",
+    arquivo: "orcamento_rejuvenescimento.html",
     modelo: "orcamento",
   },
   capa: {
