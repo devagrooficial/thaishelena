@@ -163,6 +163,7 @@ export function prefill(tipo: TipoFicha, c: Cliente): Record<string, string | bo
       instagram: (c.rede_social ?? "").replace(/^@/, ""),
       sx_f: c.sexo === "F",
       sx_m: c.sexo === "M",
+      sx_o: c.sexo === "O",
       termo_data: hoje(),
     };
   }

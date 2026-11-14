@@ -31,7 +31,7 @@ export function ClienteForm({ action, cliente = {}, botao, cancelar }: Props) {
           <div className="campo toda">
             <span className="rot">Sexo</span>
             <div className="segmento" role="radiogroup">
-              {[["F", "Feminino"], ["M", "Masculino"], ["", "Não informar"]].map(([val, rot]) => (
+              {[["F", "Feminino"], ["M", "Masculino"], ["O", "Outro"], ["", "Não informar"]].map(([val, rot]) => (
                 <label key={val}>
                   <input type="radio" name="sexo" value={val} defaultChecked={v("sexo") === val} />
                   {rot}
